@@ -1,22 +1,23 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="/mysite5/assets/css/mysite.css" rel="stylesheet"
-	type="text/css">
-<link href="/mysite5/assets/css/user.css" rel="stylesheet"
-	type="text/css">
+<link href="${pageContext.request.contextPath}/assets/css/mysite.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/assets/css/user.css" rel="stylesheet" type="text/css">
 
 </head>
 
 <body>
 	<div id="wrap">
 
-		<!-- header + navi 공통 옮김 -->
 		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
+
+		<!-- //header -->
+
+		<!-- //nav -->
 
 		<div id="aside">
 			<h2>회원</h2>
@@ -47,8 +48,7 @@
 				<div id="joinOK">
 
 					<p class="text-large bold">
-						회원가입을 축하합니다.<br> <br> <a
-							href="/mysite02/user?action=loginForm">[로그인하기]</a>
+						회원가입을 축하합니다.<br> <br> <a href="">[로그인하기]</a>
 					</p>
 
 				</div>
@@ -57,9 +57,7 @@
 			<!-- //user -->
 		</div>
 		<!-- //content  -->
-		<div class="clear"></div>
-
-		<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
 		<!-- //footer -->
 
 	</div>
