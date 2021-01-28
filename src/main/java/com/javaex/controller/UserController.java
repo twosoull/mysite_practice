@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.javaex.dao.UserDao;
+import com.javaex.service.UserService;
 import com.javaex.vo.UserVo;
 
 @Controller
@@ -17,7 +18,7 @@ import com.javaex.vo.UserVo;
 public class UserController {
 
 	@Autowired
-	private UserDao userDao;
+	private UserService userService;
 
 	// 회원가입폼
 	@RequestMapping(value = "/joinForm", method = { RequestMethod.GET, RequestMethod.POST })
@@ -33,8 +34,8 @@ public class UserController {
 		System.out.println("join");
 		System.out.println("controller join UserVo : " + userVo);
 
-		int count = userDao.insert(userVo);
-
+		userService.join(userVo);
+		
 		return "user/joinOk";
 	}
 
@@ -51,8 +52,8 @@ public class UserController {
 	public String login(@ModelAttribute UserVo userVo, HttpSession session) {
 		System.out.println("/user/login");
 		System.out.println(userVo);
-
-		UserVo authUser = userDao.selectUser(userVo);
+		
+		UserVo authUser = userService.login(userVo);
 		System.out.println("login : "+authUser);
 		// 실패했을때
 		if (authUser == null) {
@@ -65,6 +66,7 @@ public class UserController {
 			return "redirect:/";
 		}
 	}
+	//로그아웃
 	@RequestMapping(value = "/logout", method = {RequestMethod.GET,RequestMethod.POST})
 	public String logout(HttpSession session) {
 		System.out.println("logout");
@@ -78,10 +80,15 @@ public class UserController {
 	@RequestMapping(value = "/modifyForm", method = {RequestMethod.GET,RequestMethod.POST})
 	public String modifyForm(Model model ,HttpSession session) {
 		System.out.println("controller : modifyForm");
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		//세션에서 no값 가져오기 
+		int no = ((UserVo)session.getAttribute("authUser")).getNo();
 		
+		//세션값이 없으면 --> 로그인폼
 		
-		model.addAttribute("userVo",userDao.selectUser2(authUser.getNo()));
+		//회원정보 가져오기
+		UserVo userVo = userService.modifyForm(no);
+		
+		model.addAttribute("userVo",userVo);
 		
 		return "user/modifyForm";
 	}
@@ -89,11 +96,15 @@ public class UserController {
 	public String modify(@ModelAttribute UserVo userVo,HttpSession session) {
 		System.out.println("countroller : modify");
 		System.out.println(userVo);
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		
-		userDao.update(userVo);
+		int no = authUser.getNo();
+		
+		userVo.setNo(no);
+		
+		userService.modify(userVo);
 		
 		//같은주소이므로 변수지정만해서 이름만 바꿔준다
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		authUser.setName(userVo.getName());
 		
 		return "redirect:/";
