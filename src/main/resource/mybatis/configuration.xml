@@ -2,14 +2,16 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
-    <typeAliases>
-    	<typeAlias alias = "UserVo" type="com.javaex.vo.UserVo"/>
-		<typeAlias alias = "GuestVo" type="com.javaex.vo.GuestVo"/>
-    </typeAliases>
+	<typeAliases>
+		<typeAlias alias="BoardVo" type="com.javaex.vo.BoardVo" />
+		<typeAlias alias="UserVo" type="com.javaex.vo.UserVo" />
+		<typeAlias alias="GuestVo" type="com.javaex.vo.GuestVo" />
+	</typeAliases>
 
-    <mappers>
- 		 <mapper resource="mybatis/mappers/guest.xml" />
-        <mapper resource="mybatis/mappers/user.xml" /> <!--사용할 mapper 파일경로 지정한다-->
-    </mappers>
+	<mappers>
+		<mapper resource="mybatis/mappers/board.xml" />
+		<mapper resource="mybatis/mappers/guest.xml" />
+		<mapper resource="mybatis/mappers/user.xml" /> <!--사용할 mapper 파일경로 지정한다 -->
+	</mappers>
 </configuration>
 

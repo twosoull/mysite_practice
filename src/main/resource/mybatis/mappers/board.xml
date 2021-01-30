@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="board">
+
+	<resultMap id = "resultMapBoardVo" type="BoardVo">
+		<result column ="no" property="no"/>
+		<result column ="title" property="title"/>
+		<result column ="content" property="content"/>
+		<result column ="hit" property="hit"/>
+		<result column ="reg_date" property="regDate"/>
+		<result column ="user_no" property="userNo"/>
+		<result column ="name" property="name"/>
+		<result column ="rownum" property="rownum"/>
+	</resultMap>
+	<select id="selectList" resultMap="resultMapBoardVo">
+		<![CDATA[
+			select rownum,
+  				   no,
+  				   title,
+  				   hit,
+   			       reg_date,
+   			       user_no,
+   				   name
+			from(SELECT b.no,
+  			            b.title,
+    			        b.hit,
+  				        b.reg_date,
+  				        b.user_no,
+      			      	u.name
+  				 FROM board b  , USERS u
+  		   		 where b.user_no = u.no
+  			     order by b.no asc)
+			order by rownum desc
+		]]>
+	</select>
+	<select id="selectBoard" parameterType="int" resultMap="resultMapBoardVo">
+		<![CDATA[
+			SELECT b.no as no,
+				   b.title as title,
+ 			       b.hit as hit,
+    			   b.reg_date as reg_date,
+   				   b.user_no as user_no,
+   				   b.content as content,
+    			   u.name as name
+			FROM board b  , USERS u
+			where b.user_no = u.no
+			and b.no=#{no}
+		]]>
+	
+	</select>
+	
+	<update id="updateHit" parameterType = "int">
+		<![CDATA[
+			update board
+			set hit = hit + 1
+			where no = #{no}
+		
+		
+		]]>
+	
+	</update>
+	<select id="selectBoard2" parameterType="int" resultMap="resultMapBoardVo">
+		<![CDATA[
+			SELECT b.no as no,
+				   b.title as title,
+ 			       b.hit as hit,
+    			   b.reg_date as reg_date,
+   				   b.content as content,
+    			   u.name as name
+			FROM board b  , USERS u
+			where b.user_no = u.no
+			and b.no=#{no}
+		]]>
+	
+	</select>
+	
+	<update id="update" parameterType = "BoardVo">
+		<![CDATA[
+			update board
+			set title = #{title},
+   				content = #{content}
+			where no = #{no}
+		
+		]]>
+	
+	</update>
+	
+	<insert id="insert" parameterType = "BoardVo">
+		<![CDATA[
+			insert into board
+			values(SEQ_BOARD_NO.nextval,
+				   #{title},
+				   #{content},
+			       0,
+			       sysdate,
+			       #{userNo}
+			       )
+		]]>
+	
+	</insert>
+	<delete id="board.delete" parameterType = "int">
+	<![CDATA[
+		DELETE FROM BOARD
+		WHERE no = #{no}
+	
+	
+	]]>
+	
+	</delete>
+</mapper>
