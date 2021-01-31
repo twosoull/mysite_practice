@@ -43,6 +43,7 @@ public class BoardDao {
 	}
 	
 	///수정폼 원래 정석적인 방법 sql문에서 필요한 정보만 빼오는 경우
+	/*
 	public BoardVo selectBoard2(int no) {
 		System.out.println("BoardDao : selectBoard()");
 		System.out.println(no);
@@ -51,6 +52,7 @@ public class BoardDao {
 		
 		
 	}
+	*/
 	
 	public void updateBoard(BoardVo boardVo) {
 		System.out.println("BoardDao : updateBoard");

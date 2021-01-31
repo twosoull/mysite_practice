@@ -58,7 +58,6 @@ public class BoardService {
 		System.out.println("Service : modifyForm");
 		
 		BoardVo boardVo = boardDao.selectBoard(no);
-		
 		//필요없는 정보인 userNo를 기본값 0으로 바꿔준다
 		//선생님 이렇게 해도될까요??
 		boardVo.setUserNo(0);

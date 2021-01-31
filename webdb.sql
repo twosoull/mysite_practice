@@ -48,4 +48,14 @@ where no = 6;
             
             
 insert into board
-values(SEQ_BOARD_NO.nextval,'0123','콘텐트',0,sysdate,0);
+values(SEQ_BOARD_NO.nextval,'0123','콘텐트',0,sysdate,2);
+
+DELETE FROM BOARD
+WHERE NO = 7;
+
+update board
+set hit = hit + 1
+where no = 6;
+
+select *
+from board;
