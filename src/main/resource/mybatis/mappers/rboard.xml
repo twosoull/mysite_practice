@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+
+<mapper namespace="rboard">
+
+	<resultMap id="resultMapRBoardVo" type="RBoardVo" >
+		<result column = "no" property = "no"/>
+		<result column = "user_no" property = "userNo"/>
+		<result column = "title" property = "title"/>
+		<result column = "content" property = "content"/>
+		<result column = "hit" property = "hit"/>
+		<result column = "reg_date" property = "regDate"/>
+		<result column = "group_no" property = "groupNo"/>
+		<result column = "order_no" property = "orderNo"/>
+		<result column = "depth" property = "depth"/>
+	</resultMap>
+	
+	<select id="selectList" resultMap = "resultMapRBoardVo">
+		<![CDATA[
+			select r.no,
+    			   r.user_no,
+     			   r.title,
+   				   r.hit,
+  			       r.reg_date,
+    			   u.name
+			from rboard r , users u
+			where r.user_no = u.no
+			order by group_no desc,order_no asc
+		]]>
+	</select>
+		<insert id="insertRBoard" parameterType = "RBoardVo">
+			<![CDATA[
+				insert into rboard
+				values(seq_rboard_no.nextval,
+					   #{userNo},
+					   #{title},
+					   #{content},
+					   0,
+					   sysdate,
+					   seq_Rboard_group_no.nextval,
+					   1,
+					   0
+					   )
+			
+			]]>
+		</insert>
+		
+		<insert id="insertRBoardReply" parameterType="RBoardVo">
+			<![CDATA[
+				insert into rboard
+				values(seq_rboard_no.nextval,
+				#{userNo},
+				#{title},
+				#{content},
+				0,
+				sysdate,
+				#{groupNo},
+				#{orderNo},
+				#{depth}
+				)
+			]]>
+		
+		</insert>
+		
+		<select id="selectOne" parameterType="int" resultMap = "resultMapRBoardVo">
+			<![CDATA[
+				select r.no ,
+    				   r.user_no,
+     				   r.title ,
+     				   r.hit ,
+    				   r.reg_date ,
+    				   r.content ,
+    				   u.name ,
+   		     		   r.group_no,
+    				   r.order_no,
+    				   r.depth
+				from rboard r , users u
+				where r.user_no = u.no
+				and r.no = #{no}
+				order by group_no desc,order_no asc
+			
+			]]>
+		</select>
+		
+		<select id="selectGroupNoRBoardList" parameterType = "int" resultMap = "resultMapRBoardVo">
+			<![CDATA[
+				select order_no,
+      				   depth ,
+      				   no
+				from rboard
+				where group_no = #{no}
+			]]>
+		
+		
+		</select>
+		
+		<update id="updateOrderNo" parameterType ="RBoardVo" >
+		<![CDATA[
+		
+				update rboard
+				set order_no = #{orderNo}
+				where no= #{no}
+		
+		]]>
+		</update>
+</mapper>

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -11,13 +11,11 @@
 </head>
 
 
-
 <body>
 	<div id="wrap">
 
 		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
 		<!-- //header -->
-
 
 		<!-- //nav -->
 
@@ -65,18 +63,14 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${boardList}" var="vo" varStatus="st">
+							<c:forEach items="${rBoardList}" var="vo">
 								<tr>
-									<td>${vo.rownum}</td>
-									<td class="text-left"><a href="${pageContext.request.contextPath}/board/read?no=${vo.no}">${vo.title }</a></td>
-									<td>${vo.name }</td>
-									<td>${vo.hit }</td>
+									<td>${vo.no}</td>
+									<td class="text-left"><a href="${pageContext.request.contextPath}/rboard/read?no=${vo.no}">${vo.title}</a></td>
+									<td>${vo.name}</td>
+									<td>${vo.hit}</td>
 									<td>${vo.regDate}</td>
-										<td>
-									<c:if test = "${vo.userNo == authUser.no }">
-										<a href="${pageContext.request.contextPath}/board/remove?no=${vo.no}">[삭제]</a>
-									</c:if>
-										</td>
+									<td><a href="">[삭제]</a></td>
 								</tr>
 							</c:forEach>
 
@@ -102,8 +96,8 @@
 
 						<div class="clear"></div>
 					</div>
-					<c:if test="${!empty authUser }">
-						<a id="btn_write" href="${pageContext.request.contextPath}/board/writeForm">글쓰기</a>
+					<c:if test = "${!empty authUser }">
+						<a id="btn_write" href="${pageContext.request.contextPath}/rboard/writeForm">글쓰기</a>
 					</c:if>
 
 				</div>
