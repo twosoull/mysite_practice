@@ -171,7 +171,8 @@ where group_no = 1
 order by group_no desc,order_no asc,depth asc;
 
 select order_no,
-       depth 
+       depth ,
+       no
 from rboard
 where group_no = 1;
 
@@ -182,3 +183,43 @@ where group_no = 1;
 select max(depth)as depth
 from rboard
 where group_no = 1;
+
+
+update rboard
+set order_no = 3
+where no= 29;
+
+select r.no,
+       r.user_no,
+       r.title,
+       r.hit,
+       r.reg_date,
+       u.name,
+       r.group_no,
+       r.order_no,
+       r.depth
+from rboard r , users u
+where r.user_no = u.no
+order by group_no desc,order_no asc;
+
+select r.no,
+     r.user_no,
+     r.title,
+     r.hit,
+     r.reg_date,
+     u.name
+from rboard r , users u
+where r.user_no = u.no
+order by group_no desc,order_no asc;
+
+update rboard
+set title= null,
+    user_no = 0    
+where no = 8;
+
+select *
+from rboard;
+
+update rboard
+set hit= hit + 1  
+where no = 8;

@@ -19,13 +19,7 @@
 
 		<!-- //nav -->
 
-		<div id="aside">
-			<h2>게시판</h2>
-			<ul>
-				<li><a href="${pageContext.request.contextPath}/board/list">일반게시판</a></li>
-				<li><a href="${pageContext.request.contextPath}/rboard/list">댓글게시판</a></li>
-			</ul>
-		</div>
+		<c:import url="/WEB-INF/views/include/aside.jsp"></c:import>
 		<!-- //aside -->
 
 		<div id="content">
@@ -66,11 +60,20 @@
 							<c:forEach items="${rBoardList}" var="vo">
 								<tr>
 									<td>${vo.no}</td>
-									<td class="text-left"><a href="${pageContext.request.contextPath}/rboard/read?no=${vo.no}">${vo.title}</a></td>
+									<c:choose>
+										<c:when test="${vo.title == null}">
+											<td class="text-left"><p>[삭제된 게시물 입니다.]</p></td>
+										</c:when>
+										<c:otherwise>
+											<td class="text-left"><a href="${pageContext.request.contextPath}/rboard/read?no=${vo.no}"> ${vo.title}</a></td>
+										</c:otherwise>
+									</c:choose>
 									<td>${vo.name}</td>
 									<td>${vo.hit}</td>
 									<td>${vo.regDate}</td>
-									<td><a href="">[삭제]</a></td>
+									<td><c:if test="${vo.userNo == authUser.no }">
+											<a href="${pageContext.request.contextPath}/rboard/remove?no=${vo.no}">[삭제]</a>
+										</c:if></td>
 								</tr>
 							</c:forEach>
 
@@ -96,7 +99,7 @@
 
 						<div class="clear"></div>
 					</div>
-					<c:if test = "${!empty authUser }">
+					<c:if test="${!empty authUser }">
 						<a id="btn_write" href="${pageContext.request.contextPath}/rboard/writeForm">글쓰기</a>
 					</c:if>
 

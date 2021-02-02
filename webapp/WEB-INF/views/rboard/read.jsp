@@ -18,13 +18,7 @@
 
 		<!-- //nav -->
 
-		<div id="aside">
-			<h2>게시판</h2>
-			<ul>
-				<li><a href="">일반게시판</a></li>
-				<li><a href="">댓글게시판</a></li>
-			</ul>
-		</div>
+		<c:import url="/WEB-INF/views/include/aside.jsp"></c:import>
 		<!-- //aside -->
 
 		<div id="content">
@@ -70,12 +64,12 @@
 							<span class="form-value">${rBoardVo.content}</span>
 						</div>
 						<c:if test="${rBoardVo.userNo == authUser.no}">
-							<a id="btn_modify" href="">수정</a>
+							<a id="btn_modify" href="${pageContext.request.contextPath}/rboard/modifyForm?no=${rBoardVo.no}">수정</a>
 						</c:if>
 						<c:if test="${!empty authUser}">
 							<a id="btn_modify" href="${pageContext.request.contextPath}/rboard/writeReplyForm?groupNo=${rBoardVo.groupNo}&orderNo=${rBoardVo.orderNo}&depth=${rBoardVo.depth}">답글</a>
 						</c:if>
-						<a id="btn_modify" href="">목록</a>
+						<a id="btn_modify" href="${pageContext.request.contextPath}/rboard/list">목록</a>
 
 					</form>
 					<!-- //form -->

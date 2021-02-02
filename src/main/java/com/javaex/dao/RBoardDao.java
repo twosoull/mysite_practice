@@ -36,6 +36,12 @@ public class RBoardDao {
 		
 	}
 	
+	public void updateHit(int no) {
+		System.out.println("Dao:updateHit");
+		
+		sqlSession.update("rboard.updateHit",no);
+	}
+	
 	public void insertRBoardReply(RBoardVo rBoardVo) {
 		System.out.println("Dao : RBoard()");
 		
@@ -54,6 +60,21 @@ public class RBoardDao {
 		
 		sqlSession.update("rboard.updateOrderNo" , rBoardVo);
 		
+	}
+	
+	public void updateRBoardTitleEmpty(int no) {
+		System.out.println("Dao :  updateRBoardTitleEmpty");
+		
+		 sqlSession.update("rboard.updateRBoardTitleEmpty",no);
+		
+		
+	}
+	
+	public void updateRBoard(RBoardVo rBoardVo) {
+		System.out.println("Dao : updateRboard()");
+		System.out.println(rBoardVo);
+		
+		sqlSession.update("updateRBoard",rBoardVo);
 	}
 	
 }

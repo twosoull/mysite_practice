@@ -65,4 +65,28 @@ public class RBoardController {
 		rBoardService.writeReply(rBoardVo);
 		return "redirect:/rboard/list";
 	}
+	
+	@RequestMapping(value="/remove" , method = {RequestMethod.GET,RequestMethod.POST})
+	public String remove(@RequestParam("no") int no,Model models) {
+		System.out.println("controller : remove()");
+		
+		rBoardService.remove(no);
+		return "redirect:/rboard/list";
+	}
+	@RequestMapping(value="/modifyForm" , method = {RequestMethod.GET,RequestMethod.POST})
+	public String modifyForm(@RequestParam("no") int no,Model model) {
+		System.out.println("controller : modifyForm()");
+		
+		model.addAttribute("rBoardVo",rBoardService.modifyForm(no));
+		return "rboard/modifyForm";
+	}
+	@RequestMapping(value="/modify" , method = {RequestMethod.GET,RequestMethod.POST})
+	public String modify(@ModelAttribute RBoardVo rBoardVo) {
+		System.out.println("controller : modify");
+		
+		rBoardService.modify(rBoardVo);
+		
+		return "redirect:/rboard/list";
+	}
+	
 }

@@ -18,20 +18,23 @@ public class RBoardService {
 
 		System.out.println("Service : list");
 		List<RBoardVo> rbvList = rBoardDao.selectRboardList();
-
+		//다시짜야할 부분 공백이 들어가지않음
+		
 		for (int i = 0; i < rbvList.size(); i++) {
 			String title = "";
-			
+			if(!(rbvList.get(i).getTitle() == null)) {
+				
 			for (int j = 1; j <= rbvList.get(i).getDepth(); j++) {
-				String str = "00";
-				title = title + str;
+				
+				title += "\\p";
 				
 				System.out.println(title + "타이틀은? "+ title + "??");
 			}
-			title = title + rbvList.get(i).getTitle();
-			
+			title += rbvList.get(i).getTitle();
+			System.out.println(title);
 			rbvList.get(i).setTitle(title);
 
+			}
 		}
 
 		return rbvList;
@@ -40,7 +43,8 @@ public class RBoardService {
 
 	public RBoardVo read(int no) {
 		System.out.println("read");
-
+		rBoardDao.updateHit(no);
+		
 		return rBoardDao.selectRBoard(no);
 
 	}
@@ -56,13 +60,18 @@ public class RBoardService {
 		System.out.println("Service : writeReply");
 
 		List<RBoardVo> rbvList = rBoardDao.selectGroupNoRBoardList(rBoardVo.getGroupNo());
-
+		
+		int nowOrderNo = rBoardVo.getOrderNo();
+		
 		for (int i = 0; i < rbvList.size(); i++) {
-			if ((rBoardVo.getOrderNo() + 1) == rbvList.get(i).getOrderNo()) {
-				int upOrderNo = rbvList.get(i).getOrderNo() + 1;
+			
+			int listOrderNo = rbvList.get(i).getOrderNo();
+			
+			if ((nowOrderNo + 1) == listOrderNo) {
+				int upOrderNo = listOrderNo + 1;
 
 				rbvList.get(i).setOrderNo(upOrderNo);
-				System.out.println("어디가문제여  :  " + rbvList.get(i).getOrderNo());
+				
 				rBoardDao.updateOrderNo(rbvList.get(i));
 			}
 		}
@@ -74,5 +83,27 @@ public class RBoardService {
 
 		rBoardDao.insertRBoardReply(rBoardVo);
 
+	}
+	
+	public void remove(int no) {
+		System.out.println("Service :  remove()");
+		
+		rBoardDao.updateRBoardTitleEmpty(no);
+	}
+	
+	public RBoardVo modifyForm(int no) {
+		System.out.println("Service : modifyForm()");
+		
+		 return rBoardDao.selectRBoard(no);
+		 
+		
+		 
+	}
+	
+	public void modify(RBoardVo rBoardVo) {
+		System.out.println("Service : modify");
+		
+		rBoardDao.updateRBoard(rBoardVo);
+		
 	}
 }

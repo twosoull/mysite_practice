@@ -25,7 +25,8 @@
      			   r.title,
    				   r.hit,
   			       r.reg_date,
-    			   u.name
+    			   u.name,
+    			   r.depth
 			from rboard r , users u
 			where r.user_no = u.no
 			order by group_no desc,order_no asc
@@ -105,5 +106,32 @@
 				where no= #{no}
 		
 		]]>
+		</update>
+		
+		<update id="updateRBoardTitleEmpty" parameterType = "int">
+		<![CDATA[
+			update rboard
+			set title=null
+			where no = #{no}
+		]]>
+		
+		</update>
+		
+		<update id="updateHit" parameterType = "int">
+			<![CDATA[
+				update rboard
+				set hit= hit + 1  
+				where no = #{no}
+			]]>
+		</update>
+		
+		<update id="updateRBoard" parameterType="RBoardVo">
+			<![CDATA[
+				update rboard
+				set title = #{title},
+    				content = #{content}
+				where no = #{no}
+			]]>
+		
 		</update>
 </mapper>

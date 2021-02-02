@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,6 +23,8 @@
 		<!-- //aside -->
 
 
+
+
 		<div id="content">
 
 			<div id="content-head">
@@ -38,30 +41,50 @@
 			<!-- //content-head -->
 
 			<div id="board">
-				<div id="writeForm">
-					<form action="${pageContext.request.contextPath}/rboard/write" method="get">
+				<div id="modifyForm">
+					<form action="${pageContext.request.contextPath}/rboard/modify" method="get">
+						<!-- 작성자 -->
+						<div class="form-group">
+							<span class="form-text">작성자</span> <span class="form-value">${rBoardVo.name}</span>
+						</div>
+
+						<!-- 조회수 -->
+						<div class="form-group">
+							<span class="form-text">조회수</span> <span class="form-value">${rBoardVo.hit}</span>
+						</div>
+
+						<!-- 작성일 -->
+						<div class="form-group">
+							<span class="form-text">작성일</span> <span class="form-value">${rBoardVo.regDate}</span>
+						</div>
+
 						<!-- 제목 -->
 						<div class="form-group">
-							<label class="form-text" for="txt-title">제목</label> <input type="text" id="txt-title" name="title" value="" placeholder="제목을 입력해 주세요">
+							<label class="form-text" for="txt-title">제목</label> <input type="text" id="txt-title" name="title" value="${rBoardVo.title}">
 						</div>
+
+
 
 						<!-- 내용 -->
 						<div class="form-group">
-							<textarea id="txt-content" name="content"></textarea>
+							<textarea id="txt-content" name = "content">${rBoardVo.content}</textarea>
 						</div>
 
 						<a id="btn_cancel" href="${pageContext.request.contextPath}/rboard/list">취소</a>
-						<button id="btn_add" type="submit">등록</button>
-						<input type="hidden" name="userNo" value="${authUser.no }">
+						<button id="btn_modify" type="submit">수정</button>
+						<input type = "hidden" name = "no" value="${rBoardVo.no }">
+
 					</form>
 					<!-- //form -->
 				</div>
-				<!-- //writeForm -->
+				<!-- //modifyForm -->
 			</div>
 			<!-- //board -->
 		</div>
 		<!-- //content  -->
-		<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
+		<div class="clear"></div>
+
+		<div id="footer">Copyright ⓒ 2020 황일영. All right reserved</div>
 		<!-- //footer -->
 	</div>
 	<!-- //wrap -->
