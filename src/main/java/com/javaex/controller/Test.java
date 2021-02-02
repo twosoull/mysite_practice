@@ -30,12 +30,15 @@ public class Test {
 			
 			System.out.println("dPDk");
 			System.out.println(plist.size());
+			
 			if(plist.size() != 0 && (plist.size()%10) == 0 ) {
 				System.out.println(plist);
 				pageList.add((ArrayList<RBoardVo>) plist);
 				plist.clear();
 			}
+			
 		}
+		
 		for(int i = 0; i<pageList.size(); i++) {
 		System.out.println(i + " :" + pageList.get(i) );
 		}
