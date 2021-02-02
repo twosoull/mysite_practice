@@ -21,15 +21,17 @@
 	<select id="selectList" resultMap = "resultMapRBoardVo">
 		<![CDATA[
 			select r.no,
-    			   r.user_no,
-     			   r.title,
-   				   r.hit,
-  			       r.reg_date,
-    			   u.name,
-    			   r.depth
+ 			       r.user_no,
+    			   r.title,
+    			   r.hit,
+    			   r.reg_date,
+    		       u.name,
+     			   r.group_no,
+     		 	   r.order_no,
+     			   r.depth
 			from rboard r , users u
 			where r.user_no = u.no
-			order by group_no desc,order_no asc
+			order by group_no desc,order_no asc, r.no asc
 		]]>
 	</select>
 		<insert id="insertRBoard" parameterType = "RBoardVo">

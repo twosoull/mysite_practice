@@ -223,3 +223,7 @@ from rboard;
 update rboard
 set hit= hit + 1  
 where no = 8;
+
+update rboard
+set title = '   장범준'
+where no = 8;

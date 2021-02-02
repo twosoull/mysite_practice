@@ -65,7 +65,14 @@
 											<td class="text-left"><p>[삭제된 게시물 입니다.]</p></td>
 										</c:when>
 										<c:otherwise>
-											<td class="text-left"><a href="${pageContext.request.contextPath}/rboard/read?no=${vo.no}"> ${vo.title}</a></td>
+											<td class="text-left">
+												<a href="${pageContext.request.contextPath}/rboard/read?no=${vo.no}">
+													<c:forEach begin="1" end="${vo.depth}" step="1">
+													&nbsp;&nbsp;
+													</c:forEach>
+												${vo.title}
+												</a>
+											</td>
 										</c:otherwise>
 									</c:choose>
 									<td>${vo.name}</td>

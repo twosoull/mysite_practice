@@ -18,25 +18,7 @@ public class RBoardService {
 
 		System.out.println("Service : list");
 		List<RBoardVo> rbvList = rBoardDao.selectRboardList();
-		//다시짜야할 부분 공백이 들어가지않음
 		
-		for (int i = 0; i < rbvList.size(); i++) {
-			String title = "";
-			if(!(rbvList.get(i).getTitle() == null)) {
-				
-			for (int j = 1; j <= rbvList.get(i).getDepth(); j++) {
-				
-				title += "\\p";
-				
-				System.out.println(title + "타이틀은? "+ title + "??");
-			}
-			title += rbvList.get(i).getTitle();
-			System.out.println(title);
-			rbvList.get(i).setTitle(title);
-
-			}
-		}
-
 		return rbvList;
 
 	}
@@ -63,6 +45,7 @@ public class RBoardService {
 		
 		int nowOrderNo = rBoardVo.getOrderNo();
 		
+		
 		for (int i = 0; i < rbvList.size(); i++) {
 			
 			int listOrderNo = rbvList.get(i).getOrderNo();
@@ -74,13 +57,15 @@ public class RBoardService {
 				
 				rBoardDao.updateOrderNo(rbvList.get(i));
 			}
+			
 		}
 
-		int orderNo = rBoardVo.getOrderNo() + 1;
+		int orderNo = nowOrderNo + 1;
 		int depth = rBoardVo.getDepth() + 1;
+	
 		rBoardVo.setOrderNo(orderNo);
 		rBoardVo.setDepth(depth);
-
+	
 		rBoardDao.insertRBoardReply(rBoardVo);
 
 	}
