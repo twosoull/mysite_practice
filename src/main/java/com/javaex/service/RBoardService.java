@@ -1,5 +1,6 @@
 package com.javaex.service;
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ public class RBoardService {
 
 		System.out.println("Service : list");
 		List<RBoardVo> rbvList = rBoardDao.selectRboardList();
+		
 		
 		return rbvList;
 
