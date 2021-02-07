@@ -13,27 +13,43 @@
 		<result column ="reg_date" property="regDate"/>
 		<result column ="user_no" property="userNo"/>
 		<result column ="name" property="name"/>
-		<result column ="rownum" property="rownum"/>
+		<result column ="rowno" property="rowNo"/>
 	</resultMap>
-	<select id="selectList" resultMap="resultMapBoardVo">
+	<select id="pageAmount" resultType="int">
 		<![CDATA[
-			select rownum,
-  				   no,
-  				   title,
-  				   hit,
-   			       reg_date,
-   			       user_no,
-   				   name
-			from(SELECT b.no,
-  			            b.title,
-    			        b.hit,
-  				        b.reg_date,
-  				        b.user_no,
-      			      	u.name
-  				 FROM board b  , USERS u
-  		   		 where b.user_no = u.no
-  			     order by b.no asc)
-			order by rownum desc
+			select count(*)
+			from board
+		]]>
+	</select>
+	
+	<select id="selectList" parameterType = "BoardVo" resultMap="resultMapBoardVo">
+		<![CDATA[
+			select rowno,
+   			       no,
+       			   title,
+       			   hit,
+       			   reg_date,
+       			   user_no,
+       			   name
+			from (select rownum as rowno,
+       				     no,
+       				     title,
+       					 hit,
+       					 reg_date,
+       					 user_no,
+       					 name
+				  from(SELECT b.no,
+            				  b.title,
+            			      b.hit,
+            				  b.reg_date,
+            				  b.user_no,
+            				  u.name
+     					FROM board b  , USERS u
+     					where b.user_no = u.no
+     					     order by b.no desc)
+     			  )
+			where rowno between #{firstNum} and #{lastNum}
+			order by rowno asc
 		]]>
 	</select>
 	<select id="selectBoard" parameterType="int" resultMap="resultMapBoardVo">

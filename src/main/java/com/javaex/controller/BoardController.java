@@ -21,21 +21,24 @@ public class BoardController {
 	private BoardService boardService;
 
 	@RequestMapping(value = "/list", method = { RequestMethod.GET, RequestMethod.POST })
-	public String list(Model model) {
+	public String list(Model model,@RequestParam("pageNum")int pageNum) {
 		System.out.println("boardController : boardList()");
+		
 
-		model.addAttribute("boardList", boardService.list());
-
+		model.addAttribute("boardList", boardService.list(pageNum));
+		model.addAttribute("boardPage",boardService.pageAmount(pageNum));
 		return "board/list";
 	}
 
+	
 	@RequestMapping(value = "/read", method = { RequestMethod.GET, RequestMethod.POST })
-	public String read(@RequestParam("no") int no, Model model) {
+	public String read(@RequestParam("no") int no,@RequestParam("pageNum") int pageNum, Model model) {
 		System.out.println("boardController : read()");
-
+		model.addAttribute("boardPage",boardService.pageAmount(pageNum));
 		model.addAttribute("boardVo", boardService.read(no));
 		return "board/read";
 	}
+	
 	
 	@RequestMapping(value = "/writeForm", method = { RequestMethod.GET, RequestMethod.POST })
 	public String writeForm() {
@@ -49,7 +52,7 @@ public class BoardController {
 	public String write(@ModelAttribute BoardVo boardVo) {
 		System.out.println("controller : write()");
 		boardService.write(boardVo);
-		
+	
 		return "redirect:/board/list";
 	}
 

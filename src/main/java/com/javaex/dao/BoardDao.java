@@ -15,12 +15,20 @@ public class BoardDao {
 	private SqlSession sqlSession;
 	
 	
-	public List<BoardVo> selectBoardList() {
+	public List<BoardVo> selectBoardList(BoardVo boardVo) {
 		System.out.println("BoardDao : selectBoardList()");
-		List<BoardVo> list = sqlSession.selectList("board.selectList");
+		List<BoardVo> list = sqlSession.selectList("board.selectList",boardVo);
+		System.out.println(boardVo.getFirstNum());
 		System.out.println(list);
 				
 	return list;
+	}
+	
+	//페이지숫자를 얻기위한 글갯수를 가져온다
+	
+	public int boardAmount() {
+		System.out.println("BoardDao : boardAmount()");
+		return sqlSession.selectOne("pageAmount");
 	}
 	
 	public BoardVo selectBoard(int no) {
@@ -39,6 +47,7 @@ public class BoardDao {
 	public void insertBoard(BoardVo boardVo) {
 		System.out.println("BoardDao : insertBoard()");
 		
+	
 		sqlSession.insert("board.insert",boardVo);
 	}
 	

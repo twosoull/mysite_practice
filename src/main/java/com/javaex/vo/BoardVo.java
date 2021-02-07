@@ -13,11 +13,22 @@ public class BoardVo {
 	private String name;
 	
 	//rownum
-	private int rownum;
+	private int rowNo;
+	
+	//page
+	private int firstNum;
+	private int lastNum;
+
+	
 	//생성자
 	
+	public BoardVo() {
+		this.firstNum = 1;
+		this.lastNum = 10;
+	}
+	
 	public BoardVo(int no, String title, String content, int hit, String regDate, int userNo) {
-		super();
+		
 		this.no = no;
 		this.title = title;
 		this.content = content;
@@ -26,18 +37,48 @@ public class BoardVo {
 		this.userNo = userNo;
 	}
 	
-	public BoardVo() {
-		super();
-	}
+	public BoardVo(int no, String title, String content, int hit, String regDate, int userNo, String name, int rowNo,
+			int firstNum, int lastNum) {
+		
+		this.no = no;
+		this.title = title;
+		this.content = content;
+		this.hit = hit;
+		this.regDate = regDate;
+		this.userNo = userNo;
+		this.name = name;
+		this.rowNo = rowNo;
+		this.firstNum = firstNum;
+		this.lastNum = lastNum;
 	
+	}
+
+	public int getFirstNum() {
+		return firstNum;
+	}
+
+	public void setFirstNum(int firstNum) {
+		this.firstNum = firstNum;
+	}
+
+	public int getLastNum() {
+		return lastNum;
+	}
+
+	public void setLastNum(int lastNum) {
+		this.lastNum = lastNum;
+	}
+
+	
+
 	//메소드 g/s
 
 	public int getRownum() {
-		return rownum;
+		return rowNo;
 	}
 
-	public void setRownum(int rownum) {
-		this.rownum = rownum;
+	public void setRownum(int rowNo) {
+		this.rowNo = rowNo;
 	}
 	public String getName() {
 		return name;
@@ -100,16 +141,8 @@ public class BoardVo {
 	@Override
 	public String toString() {
 		return "BoardVo [no=" + no + ", title=" + title + ", content=" + content + ", hit=" + hit + ", regDate="
-				+ regDate + ", userNo=" + userNo + ", name=" + name + ", rownum=" + rownum + "]";
+				+ regDate + ", userNo=" + userNo + ", name=" + name + ", rowNo=" + rowNo + ", firstNum=" + firstNum
+				+ ", lastNum=" + lastNum +  "]";
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	}

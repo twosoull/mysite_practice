@@ -67,16 +67,14 @@
 						<tbody>
 							<c:forEach items="${boardList}" var="vo" varStatus="st">
 								<tr>
-									<td>${vo.rownum}</td>
-									<td class="text-left"><a href="${pageContext.request.contextPath}/board/read?no=${vo.no}">${vo.title }</a></td>
+									<td>${vo.no}</td>
+									<td class="text-left"><a href="${pageContext.request.contextPath}/board/read?no=${vo.no}&pageNum=${boardPage.pageNow}">${vo.title }</a></td>
 									<td>${vo.name }</td>
 									<td>${vo.hit }</td>
 									<td>${vo.regDate}</td>
-										<td>
-									<c:if test = "${vo.userNo == authUser.no }">
-										<a href="${pageContext.request.contextPath}/board/remove?no=${vo.no}">[삭제]</a>
-									</c:if>
-										</td>
+									<td><c:if test="${vo.userNo == authUser.no }">
+											<a href="${pageContext.request.contextPath}/board/remove?no=${vo.no}">[삭제]</a>
+										</c:if></td>
 								</tr>
 							</c:forEach>
 
@@ -85,18 +83,11 @@
 
 					<div id="paging">
 						<ul>
-							<li><a href="">◀</a></li>
-							<li><a href="">1</a></li>
-							<li><a href="">2</a></li>
-							<li><a href="">3</a></li>
-							<li><a href="">4</a></li>
-							<li class="active"><a href="">5</a></li>
-							<li><a href="">6</a></li>
-							<li><a href="">7</a></li>
-							<li><a href="">8</a></li>
-							<li><a href="">9</a></li>
-							<li><a href="">10</a></li>
-							<li><a href="">▶</a></li>
+							<li><a href="${pageContext.request.contextPath}/board/list?pageNum=${boardPage.prev}">◀</a></li>
+							<c:forEach begin="1" end ="${boardPage.page}" step = "1" varStatus="st">
+								<li><a href="${pageContext.request.contextPath}/board/list?pageNum=${st.count}">${st.count}</a></li>
+							</c:forEach>
+							<li><a href="${pageContext.request.contextPath}/board/list?pageNum=${boardPage.next}">▶</a></li>
 						</ul>
 
 

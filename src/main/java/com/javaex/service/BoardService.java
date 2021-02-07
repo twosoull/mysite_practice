@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.javaex.dao.BoardDao;
 import com.javaex.vo.BoardVo;
+import com.javaex.vo.PageAmount;
 import com.javaex.vo.UserVo;
 
 @Service
@@ -17,10 +18,38 @@ public class BoardService {
 	@Autowired
 	private BoardDao boardDao;
 
-	public List<BoardVo> list() {
+	public List<BoardVo> list(int pageNum) {
 		System.out.println("Service : list");
-
-		return boardDao.selectBoardList();
+		BoardVo boardVo = new BoardVo();
+		int firstNum = boardVo.getFirstNum();
+		int lastNum = boardVo.getLastNum();
+		
+		for(int i = 1; i <pageNum; i++) {
+			firstNum += 10;
+			lastNum += 10;
+		}
+		System.out.println(firstNum);
+		System.out.println(lastNum);
+		
+		boardVo.setFirstNum(firstNum);
+		boardVo.setLastNum(lastNum);
+		return boardDao.selectBoardList(boardVo);
+	}
+	
+	//page의 양을 센다
+	public PageAmount pageAmount(int pageNum) {
+		System.out.println("Service : pageAmount");
+		PageAmount pageAmount = new PageAmount();
+		
+		int boardAmount = boardDao.boardAmount();
+		
+		pageAmount.setBoardAmount(boardAmount); //처음 페이지 양구하기
+		pageAmount.setPrev(pageNum-1);	//이전페이지
+		pageAmount.setNext(pageNum+1);	//이후페이지
+		pageAmount.setPageNow(pageNum);  //현재페이지
+		System.out.println("page : "+pageAmount.getPage());
+		
+		return pageAmount;
 	}
 
 	public BoardVo read(int no) {
