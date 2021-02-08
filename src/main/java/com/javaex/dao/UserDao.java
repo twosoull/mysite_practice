@@ -20,6 +20,14 @@ public class UserDao {
 		return sqlSession.insert("user.insert",userVo); 
 	}
 	
+	//아이디 중복체크
+	public UserVo selectOne(String id) {
+		System.out.println("[Dao]: selectOne");
+		
+		return sqlSession.selectOne("selectOneById",id);
+		
+	}
+	
 	//로그인 --> 회원정보가져오기(login)
 	public UserVo selectUser(UserVo userVo) {
 		System.out.println("[DAO] : userSelect");
@@ -27,6 +35,7 @@ public class UserDao {
 		
 		return sqlSession.selectOne("user.selectUser",userVo);
 	}
+	
 	
 	//회원정보수정폼 -->회원정보 가져오기(modifyForm)
 	public UserVo selectUser2(int no ) {

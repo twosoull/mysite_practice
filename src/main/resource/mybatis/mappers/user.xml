@@ -42,7 +42,32 @@
 		]]>
 
 	</select>
-
+	<!-- id 중복체크 -->
+	<select id="selectById" parameterType = "string" resultType="UserVo">
+		<![CDATA[
+			select no,
+       			   id,
+       			   name,
+       			   gender
+			from users
+			where id = #{id}
+		
+		]]>
+	
+	</select>
+	<!-- 아이디 중복체크 -->
+	<select id="selectOneById" parameterType="string" resultType = "UserVo">
+		<![CDATA[
+			select no,
+    			   id,
+			       password,
+			       name,
+			       gender
+			from users
+			where id = #{id}		
+		]]>
+	
+	</select>
 	<update id="update" parameterType="UserVo">
 		<![CDATA[
 				UPDATE users

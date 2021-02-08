@@ -18,6 +18,17 @@ public class UserService {
 		return userDao.insert(userVo);
 	}
 	
+	//아이디 중복체크 
+	public String checkId(String id) {
+		System.out.println("userService checkId");
+		UserVo userVo= userDao.selectOne(id);
+		
+		if(userVo ==null) {
+			return "can";
+		}else {
+			return "cant";
+		}
+	}
 	//로그인
 	public UserVo login(UserVo userVo) {
 		System.out.println("userService login()");

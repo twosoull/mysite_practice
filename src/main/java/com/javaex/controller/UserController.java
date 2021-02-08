@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.javaex.dao.UserDao;
 import com.javaex.service.UserService;
 import com.javaex.vo.UserVo;
 
@@ -38,7 +40,18 @@ public class UserController {
 		
 		return "user/joinOk";
 	}
-
+	
+	//id 중복체크
+	@ResponseBody
+	@RequestMapping(value = "/checkId", method= {RequestMethod.GET,RequestMethod.POST})
+	public String checkId(@RequestParam("id")String id) {
+		System.out.println("checkId");
+		System.out.println(id);
+		
+		return userService.checkId(id);
+		
+	}
+	
 	// 로그인폼
 	@RequestMapping(value = "/loginForm", method = { RequestMethod.GET, RequestMethod.POST })
 	public String loginForm() {
