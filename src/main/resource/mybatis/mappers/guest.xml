@@ -21,6 +21,19 @@
 	]]>
 
 	</select>
+	<!-- vo 얻기 -->
+	<select id="selectOne" parameterType = "int" resultType="GuestVo">
+		<![CDATA[
+			select no,
+			       name,
+			       content,
+			       reg_date as regDate
+			from guestbook
+			where no = #{no}			
+		]]>
+	
+	</select>
+	
 	<insert id="insert" parameterType="GuestVo">
 		<![CDATA[
 		insert into guestbook
@@ -32,6 +45,27 @@
 			   )
 		]]>
 	</insert>
+	
+	<insert id="insertAjax" parameterType="GuestVo">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			select seq_guestbook_no.nextval from dual
+		</selectKey>
+		
+		<![CDATA[
+		insert into guestbook
+		values(#{no},
+			   #{name},
+	  	       #{password},
+		       #{content},
+		       sysdate
+			   )			
+		
+		
+		]]>
+	
+	
+	</insert>
+	
 	<delete id="delete" parameterType="GuestVo">
 		<![CDATA[
 			delete from guestbook

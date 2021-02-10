@@ -25,6 +25,21 @@ public class GuestDao {
 		System.out.println(guestVo);
 		
 		sqlSession.insert("guest.insert",guestVo);
+		
+	}
+	
+	public void insertGetNo(GuestVo guestVo) {
+		System.out.println("Dao insert()");
+		System.out.println(guestVo);
+		
+		sqlSession.insert("guest.insertAjax",guestVo);
+		
+	}
+	public GuestVo selectGuestOne(int no) {
+		System.out.println("selectGuestOne");
+		
+		return sqlSession.selectOne("guest.selectOne",no);
+		
 	}
 	
 	public int delete(GuestVo guestVo) {
