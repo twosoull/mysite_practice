@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -27,9 +28,7 @@ public class ApiGuestbookController {
 		GuestVo vo = guestService.writeResultVo(guestVo);
 		
 		return vo;
-		
-		
-	}
+	} 
 	
 	@ResponseBody
 	@RequestMapping(value="/list")
@@ -39,6 +38,14 @@ public class ApiGuestbookController {
 		
 		
 	}
-	
+	@ResponseBody
+	@RequestMapping(value = "/remove")
+	public int remove(@RequestBody GuestVo guestVo) {
+		System.out.println("[ApiGuestbookController]:remove");
+		System.out.println(guestVo);
+		int count = guestService.delete(guestVo);
+		System.out.println(count);
+		return count;
+	}
 	
 }
