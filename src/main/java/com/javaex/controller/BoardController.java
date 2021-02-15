@@ -1,6 +1,6 @@
 package com.javaex.controller;
 
-import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,20 +21,31 @@ public class BoardController {
 	private BoardService boardService;
 
 	@RequestMapping(value = "/list", method = { RequestMethod.GET, RequestMethod.POST })
-	public String list(Model model,@RequestParam("pageNum")int pageNum) {
+	public String list(@RequestParam("keyword")String keyword,  Model model) {
 		System.out.println("boardController : boardList()");
+		System.out.println(keyword);
 		
 
-		model.addAttribute("boardList", boardService.list(pageNum));
-		model.addAttribute("boardPage",boardService.pageAmount(pageNum));
+		model.addAttribute("boardList", boardService.list());
 		return "board/list";
+	}
+	@RequestMapping(value = "/list2", method = { RequestMethod.GET, RequestMethod.POST } )
+	public String list2(@RequestParam(value="keyword", required= false , defaultValue="")String keyword,
+						@RequestParam(value="crtPage", required= false , defaultValue="1")int crtPage,
+						Model model) {
+		System.out.println("boardController : list2()");
+	
+		
+		Map<String,Object> pMap = boardService.list2(keyword,crtPage);
+		model.addAttribute("pMap",pMap);
+		return"board/list2";
 	}
 
 	
 	@RequestMapping(value = "/read", method = { RequestMethod.GET, RequestMethod.POST })
-	public String read(@RequestParam("no") int no,@RequestParam("pageNum") int pageNum, Model model) {
+	public String read(@RequestParam("no") int no, Model model) {
 		System.out.println("boardController : read()");
-		model.addAttribute("boardPage",boardService.pageAmount(pageNum));
+		
 		model.addAttribute("boardVo", boardService.read(no));
 		return "board/read";
 	}

@@ -22,36 +22,72 @@
 		]]>
 	</select>
 	
-	<select id="selectList" parameterType = "BoardVo" resultMap="resultMapBoardVo">
+	<select id="selectList"  resultMap="resultMapBoardVo">
 		<![CDATA[
-			select rowno,
-   			       no,
-       			   title,
-       			   hit,
-       			   reg_date,
-       			   user_no,
-       			   name
-			from (select rownum as rowno,
-       				     no,
-       				     title,
-       					 hit,
-       					 reg_date,
-       					 user_no,
-       					 name
-				  from(SELECT b.no,
-            				  b.title,
-            			      b.hit,
-            				  b.reg_date,
-            				  b.user_no,
-            				  u.name
-     					FROM board b  , USERS u
-     					where b.user_no = u.no
-     					     order by b.no desc)
-     			  )
-			where rowno between #{firstNum} and #{lastNum}
-			order by rowno asc
+			SELECT b.no,
+            	   b.title,
+            	   b.hit,
+            	   b.reg_date,
+            	   b.user_no,
+            	   u.name
+     		FROM board b  , USERS u
+     		where b.user_no = u.no
+     		order by b.no desc
+     	
 		]]>
 	</select>
+	
+	<select id="selectList2" parameterType="map" resultMap="resultMapBoardVo">
+		<![CDATA[
+			select r.rnum,
+			       r.no,
+			       r.title,
+			       r.content,
+			       r.hit,
+			       r.reg_date,
+			       r.user_no,
+			       r.name
+			from(select rownum rnum,
+				        o.no,
+				        o.title,
+				        o.content,
+				        o.hit,
+				        o.reg_date,
+				        o.user_no,
+				        o.name
+			    from(select  b.no,
+			                 b.title,
+			                 b.content,
+			                 b.hit,
+			                 b.reg_date,
+			                 b.user_no,
+			                 u.name
+			         from board b,users u
+			         where b.user_no = u.no
+		]]>
+			         <if test=" keyword != null and keyword != ''">
+				        and title like '%'||#{keyword}||'%'
+			        </if>
+		<![CDATA[
+			         order by b.no desc) o)r
+			where rnum between #{startRnum} and ${endRnum}	
+		]]>
+		
+	</select>
+	<select id="selectTotalCnt" parameterType="string" resultType="int">
+		<![CDATA[
+			select  count(*)
+			from board b, users u
+			where b.user_no = u.no
+			
+		]]>
+			<if test=" value != null and value != '' ">
+				and title like '%'||#{keyword}||'%'			
+			</if>
+		
+	
+	</select>
+	
 	<select id="selectBoard" parameterType="int" resultMap="resultMapBoardVo">
 		<![CDATA[
 			SELECT b.no as no,

@@ -1,6 +1,8 @@
 package com.javaex.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -18,24 +20,72 @@ public class BoardService {
 	@Autowired
 	private BoardDao boardDao;
 
-	public List<BoardVo> list(int pageNum) {
+	public List<BoardVo> list() {
 		System.out.println("Service : list");
-		BoardVo boardVo = new BoardVo();
-		int firstNum = boardVo.getFirstNum();
-		int lastNum = boardVo.getLastNum();
 		
-		for(int i = 1; i <pageNum; i++) {
-			firstNum += 10;
-			lastNum += 10;
-		}
-		System.out.println(firstNum);
-		System.out.println(lastNum);
-		
-		boardVo.setFirstNum(firstNum);
-		boardVo.setLastNum(lastNum);
-		return boardDao.selectBoardList(boardVo);
+		return boardDao.selectBoardList();
 	}
 	
+	//검색 기능 리스트
+	public Map<String,Object> list2(String keyword,int crtPage) {
+		System.out.println("Service : list2()");
+		
+		//페이지 글갯수
+		int listCnt = 10;
+		
+		int startRnum = (crtPage-1)*listCnt+1;
+		int	endRnum = (startRnum + listCnt) - 1;
+		
+		List<BoardVo> boardList = boardDao.selectBoardList2(keyword,startRnum,endRnum);
+		/////////////////////////////////
+		//페이징 계산
+		////
+		//한화면에 뿌려지는 페이지버튼의 수
+		int pageBtnCount = 5;
+		
+		//한화면에 마지막 버튼의 숫자
+		int endPageBtnNo = (int) (Math.ceil(crtPage/(double)pageBtnCount) * pageBtnCount);
+		
+		//한화면에 첫번재 버튼의 숫자
+		int startPageBtnNo = endPageBtnNo - (pageBtnCount - 1);
+		
+		
+		int totalCount = boardDao.selectTotalCnt(keyword);
+		
+		
+		
+		//
+		boolean next; //다음페이지의 여부
+		if(endPageBtnNo*listCnt < totalCount){ //125*10 /1234
+			next = true;
+		}else{
+			next = false;
+			endPageBtnNo =(int)Math.ceil(totalCount/(double)listCnt);
+		}
+		
+		boolean prev;
+		
+		if(startPageBtnNo != 1) {
+			prev = true;
+		}else {
+			prev = false;
+		}
+
+		
+		System.out.println("endPageBtnNo : " +endPageBtnNo);
+		System.out.println("startPageBtnNo : " + startPageBtnNo);
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("boardList", boardList);
+		map.put("endPageBtnNo", endPageBtnNo);
+		map.put("startPageBtnNo", startPageBtnNo);
+		map.put("next", next);
+		map.put("prev", prev);
+		
+		return map;
+	}
+	
+	/*
 	//page의 양을 센다
 	public PageAmount pageAmount(int pageNum) {
 		System.out.println("Service : pageAmount");
@@ -51,7 +101,7 @@ public class BoardService {
 		
 		return pageAmount;
 	}
-
+	*/
 	public BoardVo read(int no) {
 		System.out.println("Service : read");
 		System.out.println(no);
